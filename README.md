@@ -26,7 +26,7 @@ Secrets and API keys are managed using `.env` — never push secrets to your rep
 
 ## 📸 Preview
 
-Add your screenshot here! For example:
+![Preview](static/preview/p1 (1).png)
 
 ## 🛠️ Tech Stack
 
