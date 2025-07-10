@@ -15,9 +15,10 @@ client = OpenAI(
 )
 
 # ✅ Adjust path as needed
-PDFKIT_CONFIG = pdfkit.configuration(
-    wkhtmltopdf=r'C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'
-)
+try:
+    PDFKIT_CONFIG = pdfkit.configuration()
+except Exception:
+    PDFKIT_CONFIG = None
 
 @app.route("/")
 def home():
