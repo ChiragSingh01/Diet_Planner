@@ -26,12 +26,15 @@ Secrets and API keys are managed using `.env` — never push secrets to your rep
 
 ## 📸 Preview
 
-<div align="center">
+<d<div align="center">
   <img src="static/preview/P1.png" alt="Preview Page 1" width="300" style="margin: 10px;">
   <img src="static/preview/P2.png" alt="Preview Page 2" width="300" style="margin: 10px;">
+</div>
+
+<div align="center">
   <img src="static/preview/P3.png" alt="Preview Page 3" width="300" style="margin: 10px;">
-  <img src="static/preview/P4.png" alt="Preview Page 3" width="300" style="margin: 10px;">
-  <img src="static/preview/P5.png" alt="Preview Page 3" width="300" style="margin: 10px;">
+  <img src="static/preview/P4.png" alt="Preview Page 4" width="300" style="margin: 10px;">
+  <img src="static/preview/P5.png" alt="Preview Page 5" width="300" style="margin: 10px;">
 </div>
 
 ## 🛠️ Tech Stack
