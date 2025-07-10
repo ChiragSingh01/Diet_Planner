@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template, request, send_file
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -13,8 +14,10 @@ client = OpenAI(
     base_url="https://api.together.xyz/v1"
 )
 
-# Configure wkhtmltopdf path if needed
-PDFKIT_CONFIG = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')  # update if needed!
+# ✅ Adjust path as needed
+PDFKIT_CONFIG = pdfkit.configuration(
+    wkhtmltopdf=r'C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'
+)
 
 @app.route("/")
 def home():
@@ -40,26 +43,48 @@ def generate():
 
     raw_text = response.choices[0].message.content
 
-    # Parse text to sections + items
+    # ✅ Debug: See raw output
+    print("----- RAW AI OUTPUT -----")
+    print(raw_text)
+    print("-------------------------")
+
+    # ✅ Improved robust parser
     plan = []
     current_section = None
 
     for line in raw_text.splitlines():
-        if line.strip().startswith("**") and line.strip().endswith("**"):
-            section = line.strip("*").strip(":").strip()
+        line = line.strip()
+
+        # Match section headers: **Header**, Header:, # Header
+        if (
+            (line.startswith("**") and line.endswith("**")) or
+            line.endswith(":") or
+            line.startswith("#")
+        ):
+            section = line.strip("*").strip(":").strip("#").strip()
             current_section = {"title": section, "items": []}
             plan.append(current_section)
-        elif "-" in line and current_section:
-            item = line.strip("-").strip()
-            current_section["items"].append(item)
+
+        elif line and current_section:
+            # Match list items: - item, * item, 1. item
+            if (
+                line.startswith("-") or 
+                line.startswith("*") or 
+                line[0].isdigit()
+            ):
+                item = line.lstrip("-*0123456789. ").strip()
+                if item:
+                    current_section["items"].append(item)
+
+    print("----- FINAL PLAN STRUCTURE -----")
+    print(json.dumps(plan, indent=2))
+    print("---------------------------------")
 
     return render_template("result.html", plan=plan)
 
 @app.route("/download_pdf", methods=["POST"])
 def download_pdf():
-    # Same parsing as above
     plan_data = request.form.get("plan_data")
-    import json
     plan = json.loads(plan_data)
 
     rendered = render_template("pdf_template.html", plan=plan)
