@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diet Plan PDF</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1, h3 { color: #2c3e50; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Diet Plan</h1>
+  {% for section in plan %}
+    <h3>{{ section.title }}</h3>
+    <ul>
+      {% for item in section["items"] %}
+        <li>• {{ item }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</body>
+</html>
