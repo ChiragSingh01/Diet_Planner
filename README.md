@@ -83,7 +83,7 @@ Download it from wkhtmltopdf.org
 Install it and add its bin folder to your system PATH
 
 Or configure it in app.py like this:
-```
+```bash
 py
 Copy
 Edit
